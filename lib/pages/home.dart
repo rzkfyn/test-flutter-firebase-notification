@@ -1,9 +1,33 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:try_get/controllers/home_controller.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({ super.key });
+
+  @override
+  State createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  String fcmToken = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFcmToken();
+  }
+
+  void _loadFcmToken() async {
+    final loadedFcmToken = await FirebaseMessaging.instance.getToken() ?? '';
+
+    print(loadedFcmToken);
+
+    setState(() {
+      fcmToken = loadedFcmToken;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +42,9 @@ class Home extends StatelessWidget {
           ),
           body: Builder(
             builder: (context) {
-            if (ctrl.load.isTrue) {
-              return CircularProgressIndicator();
-            }
 
             return Center(
-                child: IconButton(
-                  onPressed: () {
-                    ctrl.increment();
-                  },
-                  icon: const Icon(Icons.add),
-                  color: Colors.white,
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.indigo)
-                  ),
-                ),
+                child: SelectableText(fcmToken),
               );
             }
           ),

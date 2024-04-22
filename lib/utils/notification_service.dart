@@ -28,10 +28,20 @@ class NotificationService {
     RemoteNotification? notification = message.notification;
     AndroidNotification? androidNotification = message.notification?.android;
 
+    print(message.data.toString());
+    print(message.data.isEmpty);
+
     if (notification != null && androidNotification != null) {
-      _flutterNotificationsPlugin.show(notification.hashCode, notification.title, notification.body, 
+      _flutterNotificationsPlugin.show(notification.hashCode, notification.title, message.data['subtitle'] ?? '', 
       NotificationDetails(
-        android: AndroidNotificationDetails((_channel as AndroidNotificationChannel).id, (_channel as AndroidNotificationChannel).name, channelDescription: (_channel as AndroidNotificationChannel).description)
+        android: AndroidNotificationDetails(
+          (_channel as AndroidNotificationChannel).id, 
+          (_channel as AndroidNotificationChannel).name, 
+          channelDescription: (_channel as AndroidNotificationChannel).description,
+          styleInformation: BigTextStyleInformation(
+            notification.body ?? '',
+          )
+        )
       ));
     }
   }
