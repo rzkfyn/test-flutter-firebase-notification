@@ -39,6 +39,7 @@ class NotificationService {
           (_channel as AndroidNotificationChannel).name, 
           channelDescription: (_channel as AndroidNotificationChannel).description,
           styleInformation: BigTextStyleInformation(
+            htmlFormatBigText: true,
             notification.body ?? '',
           )
         )

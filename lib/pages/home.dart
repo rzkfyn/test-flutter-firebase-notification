@@ -37,9 +37,6 @@ class _HomeState extends State<Home> {
       color: Colors.grey,
       child: SafeArea(
         child: Scaffold(
-          appBar: AppBar(
-            title: Obx(() => Text('Clicks ${ctrl.count}')),
-          ),
           body: Builder(
             builder: (context) {
 
